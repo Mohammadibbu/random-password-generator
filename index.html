@@ -23,7 +23,7 @@
         <label for="pwdcontainer" class="display-6 ">Password Generator</label></div>
         <div class="row mt-3">
         <div class="col">
-            <button class="btn btn-light" id="showselectEl" >Set password Length</button>
+            <label for="select" class="btn btn-light" id="showselectEl" >Set password Length</label>
             <!-- <select id="select" class="p-1 dropdown text-center d-none  ">
                 <option selected disabled value="5">--Select password length--</option>
                 <option  value="5">Default password length 5</option>
@@ -36,20 +36,20 @@
             <input type="number" id="select" class="d-none text-center rounded"  maxlength="2" placeholder="set password length[Default 5]" ondblclick="this.value=''" oninput="validate(this.value);">
         </div>
         <div class="col">
-            <button class="btn btn-light" id="specificchars" >Set specific characters</button>
+            <label for="specificcharsinput" class="btn btn-light" id="specificchars" >Set specific characters</label>
             <input type="text" id="specificcharsinput" class="p-1 rounded m-3 text-center d-none" placeholder="maximum 2 chars" maxlength="2">
         </div>
      
         </div>
         <div class="row">
             <div class="col">
-        <input class="p-1 rounded m-3 text-center" type="text" id="pwdcontainer" value="" placeholder="your password is here...!" readonly /><br>
+        <input class="p-1 rounded m-3 text-center invisible" type="text" id="pwdcontainer" value="" placeholder="your password is here...!" readonly /><br>
     <span id="no-of-chars"></span>
 </div>
         </div>
         <div class="row">
             <div class="col-5-sm">
-        <button type="button" id="generatepass" class="btn btn-info mt-2 " onclick="">Generate password</button></div>
+        <button type="button" id="generatepass" class="btn btn-dark mt-2 p-3 f" >Generate password</button></div>
         <div class="col mt-4">
         <button type="button" id="copyText" class="btn btn-warning mb-2 d-none " onclick="copytext()">Copy password</button><br>
         <span id="copymess" ></span><br>
