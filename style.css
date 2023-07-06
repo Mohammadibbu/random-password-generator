@@ -1,7 +1,25 @@
 body{
-    background-color: antiquewhite;
+    background-color: rgb(123, 243, 227);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 ::selection {
     color: rgba(13, 9, 243, 0.856);
     background: rgb(58, 255, 19);
+  }
+  
+  .container{
+    max-width: 500px;
+    min-width: 500px;
+    border: solid 3px white;
+    border-radius: 23px !important;
+  }
+  .display-6{
+    font-weight: 600;
+    color:  rgb(250, 209, 181);
+  }
+  #showselectEl{
+    width: 250px;
+  }
+  #specificchars{
+    width: 270px;
   }
