@@ -1,0 +1,7 @@
+body{
+    background-color: antiquewhite;
+}
+::selection {
+    color: rgba(13, 9, 243, 0.856);
+    background: rgb(58, 255, 19);
+  }
