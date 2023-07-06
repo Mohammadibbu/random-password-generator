@@ -16,6 +16,7 @@ document.querySelector("#showselectEl").addEventListener('click',(e)=>{
 })
 generatepass.addEventListener('click',(e)=>{
     // console.log("its working")
+    pwdcontainer.classList.remove('invisible');
     copyText.classList.remove('d-none');
     randompassgenerator();
 })
@@ -75,7 +76,7 @@ function validate(e){
        var specificcharsslice= specificcharsinput.value.slice(0,2);
        specificcharsinput.value=specificcharsslice;
     }
-    else if(e>5 &&e<=10){
+    else if(e>6 &&e<=10){
         generatepass.disabled=false;
         generatepass.innerText="Generate password"
         
@@ -87,21 +88,21 @@ else if(e>10 &&e<=20){
     generatepass.innerText="Generate password"
 
 
-    specificcharsinput.setAttribute("placeholder","maximum 6 chars allowed")
-    specificcharsinput.setAttribute("maxlength","6")
+    specificcharsinput.setAttribute("placeholder","maximum 5 chars allowed")
+    specificcharsinput.setAttribute("maxlength","5")
 }  
 else if(e>20 &&e<=30){
     generatepass.disabled=false;
 
     generatepass.innerText="Generate password"
      
-    specificcharsinput.setAttribute("placeholder","maximum 10 chars allowed")
+    specificcharsinput.setAttribute("placeholder","maximum 8 chars allowed")
     specificcharsinput.setAttribute("maxlength","10")
 }     
         
     else{
         generatepass.disabled=true;
-        generatepass.innerText=" WrongSomething Went!"
+        generatepass.innerText=" Something Went Wrong!..."
         // alert("your password length is too high..\n password length should be in 30 characters..")
         specificcharsinput.setAttribute("placeholder","your password length is too high..")
         pwdcontainer.setAttribute("placeholder","Maximum 30 characters support..")
