@@ -76,7 +76,7 @@ function validate(e){
        var specificcharsslice= specificcharsinput.value.slice(0,2);
        specificcharsinput.value=specificcharsslice;
     }
-    else if(e>6 &&e<=10){
+    else if(e>=6 &&e<=10){
         generatepass.disabled=false;
         generatepass.innerText="Generate password"
         
