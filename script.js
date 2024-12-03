@@ -1,113 +1,84 @@
-const generatepass=document.querySelector("#generatepass");
-const pwdcontainer=document.querySelector("#pwdcontainer");
-const copyText=document.querySelector("#copyText");
-const select=document.querySelector("#select");
-console.log(select.value)
-document.querySelector("#specificchars").addEventListener('click',(e)=>{
-    document.querySelector("#specificcharsinput").classList.remove('d-none');
-    document.querySelector("#specificchars").classList.add('d-none');
+// Element Selectors
+const generatepass = document.querySelector("#generatepass");
+const pwdcontainer = document.querySelector("#pwdcontainer");
+const copyText = document.querySelector("#copyText");
+const select = document.querySelector("#select");
+const specificcharsInput = document.querySelector("#specificcharsinput");
+const clearBtn = document.getElementById('clear');
+const noOfChars = document.getElementById("no-of-chars");
+const copymess = document.getElementById("copymess");
 
+// Event Listeners
+document.querySelector("#specificchars").addEventListener('click', toggleVisibility.bind(null, specificcharsInput, "#specificchars"));
+document.querySelector("#showselectEl").addEventListener('click', toggleVisibility.bind(null, select, "#showselectEl"));
 
-})
-document.querySelector("#showselectEl").addEventListener('click',(e)=>{
-    select.classList.remove('d-none');
-    document.querySelector("#showselectEl").classList.add('d-none')
-// select.classList.add('d-block');
-})
-generatepass.addEventListener('click',(e)=>{
-    // console.log("its working")
+generatepass.addEventListener('click', () => {
     pwdcontainer.classList.remove('invisible');
     copyText.classList.remove('d-none');
-    randompassgenerator();
-})
-const randompassgenerator=()=>{
- var specific=document.querySelector("#specificcharsinput");
- let specificchars=specific.value;
- console.log(specificchars)
-    document.getElementById('clear').classList.remove("d-none")
-    document.getElementById('clear').classList.add("d-block")
-   var chars = "0123456789!@#$%&*abcdefghijklmnopqrstuvwxyz!@#$%&*ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-// console.log(select.value)
-    if(select.value<5){
-        select.value=5;
-    }else if(select.value>=30){
-        select.value=30;
+    clearBtn.classList.remove('d-none');
+    clearBtn.classList.add('d-block');
+    randomPasswordGenerator();
+});
 
-    }
-   console.log(select.value);
+copyText.addEventListener('click', copyToClipboard);
+clearBtn.addEventListener('click', () => location.reload());
+select.addEventListener('input', () => validate(select.value));
 
-   var passwordLength = select.value-specificchars.length;
-   console.log("minus"+passwordLength);
-   var password = "";
-for (var i = 1; i <= passwordLength; i++) {
-  var randomNumber = Math.floor(Math.random() * chars.length);
-  password += chars.substring(randomNumber, randomNumber +1);
- }
- pwdcontainer.value = specificchars+password;
- document.getElementById("no-of-chars").innerHTML=`<h4 class='badge bg-danger' >No.Of Characters :<h5 class='badge bg-success'>${pwdcontainer.value.length}</h5></h4>`
-
+// Functions
+function toggleVisibility(showEl, hideEl) {
+    showEl.classList.remove('d-none');
+    document.querySelector(hideEl).classList.add('d-none');
 }
 
-   
+function randomPasswordGenerator() {
+    const specificChars = specificcharsInput.value;
+    let chars = "0123456789!@#$%&*abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const maxLength = Math.min(Math.max(select.value, 5), 30);
+    const passwordLength = maxLength - specificChars.length;
 
+    let password = specificChars;
+    for (let i = 0; i < passwordLength; i++) {
+        const randomIndex = Math.floor(Math.random() * chars.length);
+        password += chars[randomIndex];
+    }
 
+    pwdcontainer.value = password;
+    noOfChars.innerHTML = `<h4 class='badge bg-danger'>No. of Characters: <h5 class='badge bg-success'>${password.length}</h5></h4>`;
+}
 
-function copytext() {
-    
+function copyToClipboard() {
     pwdcontainer.select();
-     
     navigator.clipboard.writeText(pwdcontainer.value);
- document.getElementById('copymess').innerHTML="<small class=''>copied successfully!</small>"
- setTimeout(()=>{document.getElementById('copymess').innerHTML=''},3000);
-
- 
-    // Alert the copied text
-    // alert("Copied the text: " +pwdcontainer.value); 
-  }
-
-function validate(e){
-    if (e<=5){
-        generatepass.disabled=false;
-        generatepass.innerText="Generate password"
-        
-        const specificcharsinput=document.querySelector("#specificcharsinput");
-        specificcharsinput.setAttribute("placeholder","maximum 2 chars")
-        specificcharsinput.setAttribute("maxlength","2")
-       var specificcharsslice= specificcharsinput.value.slice(0,2);
-       specificcharsinput.value=specificcharsslice;
-    }
-    else if(e>=6 &&e<=10){
-        generatepass.disabled=false;
-        generatepass.innerText="Generate password"
-        
-    specificcharsinput.setAttribute("placeholder","maximum 4 chars allowed")
-    specificcharsinput.setAttribute("maxlength","4")
+    copymess.innerHTML = "<small>Copied successfully!</small>";
+    setTimeout(() => { copymess.innerHTML = ''; }, 3000);
 }
-else if(e>10 &&e<=20){
-    generatepass.disabled=false;
-    generatepass.innerText="Generate password"
 
-
-    specificcharsinput.setAttribute("placeholder","maximum 5 chars allowed")
-    specificcharsinput.setAttribute("maxlength","5")
-}  
-else if(e>20 &&e<=30){
-    generatepass.disabled=false;
-
-    generatepass.innerText="Generate password"
-     
-    specificcharsinput.setAttribute("placeholder","maximum 8 chars allowed")
-    specificcharsinput.setAttribute("maxlength","10")
-}     
-        
-    else{
-        generatepass.disabled=true;
-        generatepass.innerText=" Something Went Wrong!..."
-        // alert("your password length is too high..\n password length should be in 30 characters..")
-        specificcharsinput.setAttribute("placeholder","your password length is too high..")
-        pwdcontainer.setAttribute("placeholder","Maximum 30 characters support..")
-        
-
+function validate(length) {
+    const maxAllowedChars = getMaxAllowedChars(length);
+    if (length < 5 || length > 30) {
+        disableGenerateButton("Password length must be between 5 and 30!");
+        pwdcontainer.placeholder = "Max 30 characters supported.";
+        specificcharsInput.placeholder = "Invalid length!";
+    } else {
+        enableGenerateButton();
+        specificcharsInput.setAttribute("maxlength", maxAllowedChars);
+        specificcharsInput.setAttribute("placeholder", `Max ${maxAllowedChars} chars allowed`);
     }
-    
-  }
+}
+
+function getMaxAllowedChars(length) {
+    if (length <= 5) return 2;
+    if (length <= 10) return 4;
+    if (length <= 20) return 5;
+    return 8;
+}
+
+function disableGenerateButton(message) {
+    generatepass.disabled = true;
+    generatepass.innerText = message;
+}
+
+function enableGenerateButton() {
+    generatepass.disabled = false;
+    generatepass.innerText = "Generate Password";
+}
